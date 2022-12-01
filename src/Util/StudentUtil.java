@@ -24,14 +24,14 @@ public class StudentUtil
         return st;
     }
 
-    public static void printAllRegistered() {
+    public static void printAllRegisteredStudents() {
         if (Config.students == null) {
             return;
         }
         for (int i = 0; i < Config.students.length; i++) {// butun studentlerin qeydiyyatdan kecmeyini yoxlamaq
             Student st = Config.students[i];
 
-            System.out.println(st.getFullInfo());
+            System.out.println((i+1)+"."+st.getFullInfo());
         }
     }
 
@@ -45,7 +45,7 @@ public class StudentUtil
         }
 
         System.out.println("Registration completed successfully");
-        StudentUtil.printAllRegistered();
+        StudentUtil.printAllRegisteredStudents();
     }
 
     public static void findStudentsAndPrint() {
