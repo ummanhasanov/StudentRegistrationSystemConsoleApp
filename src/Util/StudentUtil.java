@@ -15,10 +15,10 @@ public class StudentUtil
 {
 
     public static Student fillStudent() {
-        String name = InputUtil.requireText("enter name");
-        String surname = InputUtil.requireText("enter surname");
-        String className = InputUtil.requireText("enter class");
-        int age = InputUtil.requireNumber("enter age");
+        String name = MenuUtil.requireName();
+        String surname = MenuUtil.requireSurname();
+        String className = MenuUtil.requireClassName();
+        int age = MenuUtil.requireAge();
 
         Student st = new Student(name, surname, age, className);
         return st;
@@ -31,7 +31,7 @@ public class StudentUtil
         for (int i = 0; i < Config.students.length; i++) {// butun studentlerin qeydiyyatdan kecmeyini yoxlamaq
             Student st = Config.students[i];
 
-            System.out.println((i+1)+"."+st.getFullInfo());
+            System.out.println((i + 1) + "." + st.getFullInfo());
         }
     }
 
@@ -43,8 +43,7 @@ public class StudentUtil
             System.out.println((i + 1) + ".Registered student");
             Config.students[i] = StudentUtil.fillStudent();
         }
-
-        System.out.println("Registration completed successfully");
+        MenuUtil.showSuccessOpMessage();
         StudentUtil.printAllRegisteredStudents();
     }
 
@@ -80,4 +79,64 @@ public class StudentUtil
         return result;
     }
 
+    public static void updateStudentWithNewObject() {
+        StudentUtil.printAllRegisteredStudents(); //show and print all registered students
+
+        int i = InputUtil.requireNumber("Which student do you want to update");
+
+        System.out.println("type update details");
+        Student s = StudentUtil.fillStudent(); // update data of selected student
+        Config.students[i - 1] = s; // updated student
+    }
+
+    public static void updateStudentWithSameObject() {
+        StudentUtil.printAllRegisteredStudents(); //show and print all registered students
+
+        int i = InputUtil.requireNumber("Which student do you want to update");
+
+        System.out.println("enter new update details");
+
+        Student selectedStudent = Config.students[i - 1];
+        String changeParams = InputUtil.requireText(" What do you want to change? example: 'name', 'surname', 'classname', 'age'");
+
+        if (changeParams.contains("'name'")) {
+            selectedStudent.setName(MenuUtil.requireName());
+        }
+
+        if (changeParams.contains("'surname'")) {
+            selectedStudent.setSurname(MenuUtil.requireSurname());
+        }
+
+        if (changeParams.contains("'age'")) {
+            selectedStudent.setAge(MenuUtil.requireAge());
+        }
+
+        if (changeParams.contains("'classname'")) {
+            selectedStudent.setClassName(MenuUtil.requireClassName());
+        }
+    }
+
+    public static void updateStudentWithSplit() {
+        StudentUtil.printAllRegisteredStudents(); //show and print all registered students
+
+        int index = InputUtil.requireNumber("Which student do you want to update");
+
+        System.out.println("enter new update details");
+
+        Student selectedStudent = Config.students[index - 1];
+        String changeParams = InputUtil.requireText(" What do you want to change? example: name, surname, classname, age");
+        String[] parameters = changeParams.split(",");
+        for (int i = 0; i < parameters.length; i++) {
+            String param = parameters[i];
+            if (param.equalsIgnoreCase("name")) {
+                selectedStudent.setName(MenuUtil.requireName());
+            } else if (param.equalsIgnoreCase("surname")) {
+                selectedStudent.setSurname(MenuUtil.requireSurname());
+            } else if (param.equalsIgnoreCase("age")) {
+                selectedStudent.setAge(MenuUtil.requireAge());
+            } else if (param.equalsIgnoreCase("classname")) {
+                selectedStudent.setClassName(MenuUtil.requireClassName());
+            }
+        }
+    }
 }
